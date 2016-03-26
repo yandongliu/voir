@@ -8,6 +8,10 @@ import config
 from .session import Session
 
 log = logging.getLogger(__name__)
+ch = logging.StreamHandler()
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+ch.setFormatter(formatter)
+log.addHandler(ch)
 
 
 def reset():
@@ -20,6 +24,7 @@ def reset():
 def drop():
     """Drop the database if it exists"""
     url = Session.bind.url
+    # import pdb; pdb.set_trace()
     log.warn('Dropping database %s', url.database)
     try:
         _root_connection().execute('drop database %s' % url.database)
@@ -47,7 +52,7 @@ def _root_connection():
     if Session.bind.name == 'mysql':
         rootdb = 'mysql'
     elif Session.bind.name == 'postgresql':
-        rootdb = 'tornado_entity'
+        rootdb = 'tornado_application'
     elif Session.bind.name == 'sqlite':
         rootdb = ':memory:'
 

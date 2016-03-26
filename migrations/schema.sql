@@ -1,4 +1,4 @@
 CREATE TABLE item (
-  id INTEGER NOT NULL PRIMARY KEY,
+  id serial PRIMARY KEY,
   name VARCHAR(16) NOT NULL
 );
