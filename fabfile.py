@@ -4,12 +4,14 @@ from fabric.api import task, local
 from fabric.colors import green, red, magenta
 import sqlalchemy_utils
 
-from models.base import engine, create_all_tables,  session
+from models.base import (
+    create_all_tables,
+    engine,
+    ro_transaction,
+    rw_transaction,
+)
 from models.mytable import MyTable
 
-@task
-def hello():
-    print green('hi')
 
 @task
 def bootstrap_database(environment='development'):
@@ -45,19 +47,19 @@ def print_database(environment='development'):
     """print the database."""
 
     print green('Printing database')
-    rows = session.query(MyTable).all()
-    for row in rows:
-        print row.id, row.name
+    with ro_transaction() as session:
+        rows = session.query(MyTable).all()
+        for row in rows:
+            print row.id, row.name
 
 @task
 def fake_item(environment='development'):
     """Create fake item."""
 
     print green('Fake items')
-    new_record = MyTable('Hello', 'World')
-    session.add(new_record)
-    # session.execute("insert into MyTable (name, value) values ('hello', 'world')")
-    session.commit()
+    with rw_transaction() as session:
+        new_record = MyTable('Hello', 'World')
+        session.add(new_record)
 
 @task
 def serve():
