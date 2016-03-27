@@ -4,13 +4,13 @@ from tornado import gen
 from tornado import httpclient
 from tornado.web import RequestHandler
 
+from models.base import session
+from models.mytable import MyTable
+
 
 class DatabaseHandler(RequestHandler):
 
-    def initialize(self, db):
-        self.db = db
-        print db
-
     @gen.coroutine
     def get(self):
-        self.write(self.db)
+        all_records = session.query(MyTable).all()
+        self.write({'data': [str(r) for r in all_records]})

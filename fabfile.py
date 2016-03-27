@@ -59,3 +59,7 @@ def fake_items(environment='development'):
     Session.execute("insert into item (name) values ('hello')")
     Session.execute("insert into item (name) values ('world')")
     Session.commit()
+
+@task
+def serve():
+    local('python app.py')
