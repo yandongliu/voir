@@ -1,14 +1,14 @@
-import contextlib
+import contextlib 
 
-from sqlalchemy import create_engine
-engine = create_engine('mysql://tornado_user:qwerty123!@localhost:3306/tornado_app', echo=False)
-
-from sqlalchemy.orm import sessionmaker
-Session = sessionmaker(bind=engine)
-session = Session()
-
+from sqlalchemy import create_engine 
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import scoped_session, sessionmaker
 
+import config
+
+engine = create_engine(config.get('database').get('url'), echo=False)
+Session = scoped_session(sessionmaker(bind=engine))
+session = Session()
 Base = declarative_base()
 
 

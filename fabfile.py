@@ -1,9 +1,12 @@
 from __future__ import absolute_import
 
+import random
+
 from fabric.api import task, local
 from fabric.colors import green, red, magenta
 import sqlalchemy_utils
 
+from lib import util
 from models.base import (
     create_all_tables,
     engine,
@@ -50,15 +53,18 @@ def print_database(environment='development'):
     with ro_transaction() as session:
         rows = session.query(MyTable).all()
         for row in rows:
-            print row.id, row.name
+            print row.id, row.name, row.value
 
 @task
 def fake_item(environment='development'):
     """Create fake item."""
 
     print green('Fake items')
+    def random_text():
+        return ''.join([random.choice(list('abcdefghijklmnopqrstuvwxyz')) for _ in xrange(7)])
     with rw_transaction() as session:
-        new_record = MyTable('Hello', 'World')
+        new_record = MyTable('Hello', util.random_string())
+        print 'Inserting {}'.format(new_record)
         session.add(new_record)
 
 @task
