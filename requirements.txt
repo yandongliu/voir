@@ -1,5 +1,6 @@
 Fabric==1.10.2
 SQLAlchemy==1.0.8
+SQLAlchemy-Utils==0.32.0
 argparse==1.2.1
 backports.ssl-match-hostname==3.4.0.2
 certifi==2015.09.06.2

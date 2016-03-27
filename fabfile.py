@@ -2,10 +2,10 @@ from __future__ import absolute_import
 
 from fabric.api import task, local
 from fabric.colors import green, red, magenta
+import sqlalchemy_utils
 
-from models import database
-from models.session import Session
-from models.item import Item
+from models.base import engine, create_all_tables,  session
+from models.mytable import MyTable
 
 @task
 def hello():
@@ -14,25 +14,23 @@ def hello():
 @task
 def bootstrap_database(environment='development'):
     """Create the database."""
-
-    print green('Dropping database')
-    database.drop()
-    print green('Creating database')
-    database.create()
-    print green('Defining schema')
-    with open('migrations/schema.sql') as f:
-        sql = f.read().replace('\n', '')
-    Session.execute(sql)
-    Session.commit()
+    if not sqlalchemy_utils.database_exists(engine.url):
+        sqlalchemy_utils.create_database(engine.url)
+    else:
+        print green('Database {} already exists'.format(engine.url.database))
 
 @task
 def drop_database(environment='development'):
     """Drop the database."""
+    if sqlalchemy_utils.database_exists(engine.url):
+        sqlalchemy_utils.drop_database(engine.url)
+    else:
+        print green('Database {} doesn\'t exists'.format(engine.url.database))
 
-    print green('Dropping database')
-    # database.drop()
-    # import pdb; pdb.set_trace()
-    Session.execute('drop database %s' % Session.bind.url.database)
+@task
+def create_tables(environment='development'):
+    """Create all tables."""
+    create_all_tables()
 
 @task
 def drop_table(table):
@@ -47,18 +45,19 @@ def print_database(environment='development'):
     """print the database."""
 
     print green('Printing database')
-    rows = Session.query(Item).all()
+    rows = session.query(MyTable).all()
     for row in rows:
         print row.id, row.name
 
 @task
-def fake_items(environment='development'):
-    """Create the database."""
+def fake_item(environment='development'):
+    """Create fake item."""
 
     print green('Fake items')
-    Session.execute("insert into item (name) values ('hello')")
-    Session.execute("insert into item (name) values ('world')")
-    Session.commit()
+    new_record = MyTable('Hello', 'World')
+    session.add(new_record)
+    # session.execute("insert into MyTable (name, value) values ('hello', 'world')")
+    session.commit()
 
 @task
 def serve():
