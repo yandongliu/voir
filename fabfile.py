@@ -1,11 +1,13 @@
 from __future__ import absolute_import
 
 import random
+from uuid import uuid4
 
 from fabric.api import task, local
 from fabric.colors import green, red, magenta
 import sqlalchemy_utils
 
+from entities.item import Item
 from lib import util
 from models.base import (
     create_all_tables,
@@ -13,11 +15,11 @@ from models.base import (
     ro_transaction,
     rw_transaction,
 )
-from models.mytable import MyTable
+from models.item import Item as ModelItem
 
 
 @task
-def bootstrap_database(environment='development'):
+def create_database(environment='development'):
     """Create the database."""
     if not sqlalchemy_utils.database_exists(engine.url):
         sqlalchemy_utils.create_database(engine.url)
@@ -42,8 +44,10 @@ def drop_table(table):
     """Drop the database."""
 
     print green('Dropping table %s' % table)
-    Session.execute('drop table %s' % table)
-    Session.commit()
+    with rw_transaction() as session:
+        session.execute('drop table %s' % table)
+        session.commit()
+    #Item.drop(engine)
 
 @task
 def print_database(environment='development'):
@@ -51,9 +55,9 @@ def print_database(environment='development'):
 
     print green('Printing database')
     with ro_transaction() as session:
-        rows = session.query(MyTable).all()
+        rows = session.query(ModelItem).all()
         for row in rows:
-            print row.id, row.name, row.value
+            print row.uuid, row.name, row.value
 
 @task
 def fake_item(environment='development'):
@@ -63,9 +67,11 @@ def fake_item(environment='development'):
     def random_text():
         return ''.join([random.choice(list('abcdefghijklmnopqrstuvwxyz')) for _ in xrange(7)])
     with rw_transaction() as session:
-        new_record = MyTable('Hello', util.random_string())
-        print 'Inserting {}'.format(new_record)
-        session.add(new_record)
+        # new_record = Item(uuid4(), util.random_string(), util.random_number())
+        item = Item.get_mock_object()
+        print 'Inserting {}'.format(item.to_primitive())
+        model_item = ModelItem(**item.to_primitive())
+        session.add(model_item)
 
 @task
 def serve():
