@@ -9,8 +9,20 @@ import config
 engine = create_engine(config.get('database').get('url'), echo=False)
 Session = scoped_session(sessionmaker(bind=engine))
 session = Session()
-Base = declarative_base()
 
+class Base(object):
+
+    def to_dict(self):
+        if not self.attrs:
+            raise Exception('No attrs defined')
+        desp = {}
+        for attr in self.attrs:
+            value = getattr(self, attr)
+            desp[attr] = value
+
+        return desp
+
+Model = declarative_base(cls=Base)
 
 def create_all_tables():
     Base.metadata.create_all(bind=engine)

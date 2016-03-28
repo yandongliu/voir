@@ -4,14 +4,14 @@ from fabric.api import task, local
 from fabric.colors import green
 import sqlalchemy_utils
 
-from entities.item import Item
+from entities import Item
 from models.base import (
     create_all_tables,
     engine,
     ro_transaction,
     rw_transaction,
 )
-from models.item import Item as ModelItem
+from models import Item as ModelItem
 
 
 @task
@@ -57,7 +57,7 @@ def print_database(environment='development'):
     with ro_transaction() as session:
         rows = session.query(ModelItem).all()
         for row in rows:
-            print row.uuid, row.name, row.value
+            print row.to_dict()
 
 
 @task
