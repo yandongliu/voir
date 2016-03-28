@@ -4,14 +4,14 @@ from fabric.api import task, local
 from fabric.colors import green
 import sqlalchemy_utils
 
-from entities import Item
+from entities import Item, User
 from models.base import (
     create_all_tables,
     engine,
     ro_transaction,
     rw_transaction,
 )
-from models import Item as ModelItem
+from models import Item as ModelItem, User as ModelUser
 
 
 @task
@@ -66,9 +66,14 @@ def fake_item(environment='development'):
 
     print green('Fake items')
     with rw_transaction() as session:
+        user = User.get_mock_object()
         item = Item.get_mock_object()
-        print 'Inserting {}'.format(item.to_primitive())
+        item.user_uuid = user.uuid
+        print 'Inserting user {}'.format(user.to_primitive())
+        print 'Inserting item {}'.format(item.to_primitive())
+        model_user = ModelUser(**user.to_primitive())
         model_item = ModelItem(**item.to_primitive())
+        session.add(model_user)
         session.add(model_item)
 
 
