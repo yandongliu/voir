@@ -17,6 +17,7 @@ def _to_dict(message):
 
     return data
 
+
 class BaseHandler(RequestHandler):
 
     def json_response(self, message=None, code=httplib.OK):

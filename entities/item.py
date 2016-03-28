@@ -5,6 +5,7 @@ from schematics.types import DateTimeType, IntType, StringType
 
 from .base import UuidStringType
 
+
 class Item(Model):
 
     uuid = UuidStringType(required=True)

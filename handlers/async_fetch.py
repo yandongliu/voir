@@ -11,6 +11,7 @@ def fetch_coroutine(url):
     response = yield http_client.fetch(url)
     raise gen.Return(response.body)
 
+
 class AsyncFetchHandler(RequestHandler):
     @gen.coroutine
     def get(self):

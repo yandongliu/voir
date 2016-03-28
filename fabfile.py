@@ -1,14 +1,10 @@
 from __future__ import absolute_import
 
-import random
-from uuid import uuid4
-
 from fabric.api import task, local
-from fabric.colors import green, red, magenta
+from fabric.colors import green
 import sqlalchemy_utils
 
 from entities.item import Item
-from lib import util
 from models.base import (
     create_all_tables,
     engine,
@@ -26,6 +22,7 @@ def create_database(environment='development'):
     else:
         print green('Database {} already exists'.format(engine.url.database))
 
+
 @task
 def drop_database(environment='development'):
     """Drop the database."""
@@ -34,10 +31,12 @@ def drop_database(environment='development'):
     else:
         print green('Database {} doesn\'t exists'.format(engine.url.database))
 
+
 @task
 def create_tables(environment='development'):
     """Create all tables."""
     create_all_tables()
+
 
 @task
 def drop_table(table):
@@ -47,7 +46,8 @@ def drop_table(table):
     with rw_transaction() as session:
         session.execute('drop table %s' % table)
         session.commit()
-    #Item.drop(engine)
+    # Item.drop(engine)
+
 
 @task
 def print_database(environment='development'):
@@ -59,6 +59,7 @@ def print_database(environment='development'):
         for row in rows:
             print row.uuid, row.name, row.value
 
+
 @task
 def fake_item(environment='development'):
     """Create fake item."""
@@ -69,6 +70,12 @@ def fake_item(environment='development'):
         print 'Inserting {}'.format(item.to_primitive())
         model_item = ModelItem(**item.to_primitive())
         session.add(model_item)
+
+
+@task
+def lint():
+    local('flake8')
+
 
 @task
 def serve():

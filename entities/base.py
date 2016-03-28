@@ -1,6 +1,8 @@
 import uuid
 
+from schematics.exceptions import ValidationError
 from schematics.types import StringType
+
 
 class UuidStringType(StringType):
     def validate(self, value):

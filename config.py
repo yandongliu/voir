@@ -14,8 +14,10 @@ development_settings = {
 
 _obj = development_settings
 
+
 def load():
     pass
+
 
 def get(key):
     return _obj.get(key)
