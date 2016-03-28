@@ -64,10 +64,7 @@ def fake_item(environment='development'):
     """Create fake item."""
 
     print green('Fake items')
-    def random_text():
-        return ''.join([random.choice(list('abcdefghijklmnopqrstuvwxyz')) for _ in xrange(7)])
     with rw_transaction() as session:
-        # new_record = Item(uuid4(), util.random_string(), util.random_number())
         item = Item.get_mock_object()
         print 'Inserting {}'.format(item.to_primitive())
         model_item = ModelItem(**item.to_primitive())
