@@ -3,11 +3,13 @@ from __future__ import absolute_import
 from tornado import gen
 from tornado.web import RequestHandler
 
+from lib import cache
 from services.repositories.item import ItemRepository
 
 
 class DatabaseHandler(RequestHandler):
 
+    @cache.local_memoize
     @gen.coroutine
     def get(self):
         items = ItemRepository.read_all()

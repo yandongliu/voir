@@ -5,10 +5,11 @@ from mappers.item import ItemMapper
 
 class ItemRepository(object):
 
+    ItemTable = Item.__table__
+
     @classmethod
     def read_one(cls, uuid):
-        ItemTable = Item.__table__
-        query = ItemTable.select().where(ItemTable.c.uuid == uuid)
+        query = cls.ItemTable.select().where(ItemTable.c.uuid == uuid)
         rows = session.execute(query)
         if rows:
             entities = map(ItemMapper.to_entity_from_obj, list(rows))
@@ -16,8 +17,7 @@ class ItemRepository(object):
 
     @classmethod
     def read_all(cls):
-        ItemTable = Item.__table__
-        query = ItemTable.select()
+        query = cls.ItemTable.select()
         rows = session.execute(query)
         if rows:
             entities = map(ItemMapper.to_entity_from_obj, list(rows))
