@@ -1,32 +1,10 @@
+from mappers.event import EventMapper
 from models.base import session
 from models import Event
-from mappers.event import EventMapper
+from services.repositories.base import BaseRepository
 
 
-class EventRepository(object):
+class EventRepository(BaseRepository):
 
-    EventTable = Event.__table__
-
-    @classmethod
-    def read_one(cls, uuid):
-        query = cls.EventTable.select().where(EventTable.c.uuid == uuid)
-        rows = session.execute(query)
-        if rows:
-            entities = map(EventMapper.to_entity_from_obj, list(rows))
-            return entities[0]
-
-    @classmethod
-    def read_all(cls):
-        query = cls.EventTable.select()
-        rows = session.execute(query)
-        if rows:
-            entities = map(EventMapper.to_entity_from_obj, list(rows))
-            return entities
-
-    @classmethod
-    def write_one(cls, event):
-        event.validate()
-        query = cls.EventTable.insert().values(
-            EventMapper.to_record(event)
-        )
-        session.execute(query)
+    Table = Event.__table__
+    Mapper = EventMapper
