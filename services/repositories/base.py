@@ -19,7 +19,6 @@ class BaseRepository(object):
             entities = map(cls.Mapper.to_entity_from_obj, list(rows))
             return entities
 
-
     @classmethod
     def write_one(cls, entity):
         entity.validate()

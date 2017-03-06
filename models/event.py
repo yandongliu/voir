@@ -1,4 +1,4 @@
-from sqlalchemy import CHAR, Column, DateTime, Float, ForeignKey, Integer, String
+from sqlalchemy import CHAR, Column, Float, ForeignKey, String
 from sqlalchemy.orm import relationship
 
 from .base import Model, CreatedUpdatedDeletedTimestamp

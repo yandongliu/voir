@@ -1,3 +1,3 @@
-from entities.event import Event
-from entities.item import Item
-from entities.user import User
+from entities.event import Event  # noqa
+from entities.item import Item  # noqa
+from entities.user import User  # noqa

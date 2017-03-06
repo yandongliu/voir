@@ -66,4 +66,3 @@ class EntityMapper(object):
     @classmethod
     def to_entity_from_obj(cls, obj_resource):
         return cls.to_entity(dict(obj_resource.items()))
-

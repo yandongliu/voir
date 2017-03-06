@@ -6,4 +6,3 @@ from .base import EntityMapper
 
 class EventMapper(EntityMapper):
     _entity = Event
-

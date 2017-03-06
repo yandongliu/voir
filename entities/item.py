@@ -1,7 +1,4 @@
-from datetime import datetime
-
-from schematics.models import Model
-from schematics.types import DateTimeType, IntType, StringType
+from schematics.types import IntType, StringType
 
 from .base import TimestampModel, UuidStringType
 

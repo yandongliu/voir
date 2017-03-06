@@ -1,5 +1,4 @@
 from mappers.event import EventMapper
-from models.base import session
 from models import Event
 from services.repositories.base import BaseRepository
 

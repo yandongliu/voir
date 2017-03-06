@@ -1,5 +1,4 @@
 from mappers.item import ItemMapper
-from models.base import session
 from models import Item
 from services.repositories.base import BaseRepository
 

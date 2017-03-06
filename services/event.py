@@ -4,6 +4,7 @@ from uuid import uuid4
 from entities import Event
 from services.repositories.event import EventRepository
 
+
 class EventService(object):
 
     @classmethod
@@ -19,4 +20,9 @@ class EventService(object):
             'updated_at': now,
         })
         EventRepository.write_one(event)
+        return event
+
+    @classmethod
+    def find_by_uuid(cls, uuid):
+        event = EventRepository.read_one(uuid)
         return event

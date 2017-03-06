@@ -1,4 +1,4 @@
-from sqlalchemy import CHAR, Column, DateTime, Integer, String
+from sqlalchemy import CHAR, Column, String
 
 from .base import Model, CreatedUpdatedDeletedTimestamp
 

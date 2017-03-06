@@ -1,6 +1,5 @@
 from unittest import TestCase
 
-from entities import Event, User
 from services.event import EventService
 from services.repositories.event import EventRepository
 

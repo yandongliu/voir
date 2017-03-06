@@ -11,6 +11,7 @@ engine = create_engine(config.get('database').get('url'), echo=False)
 Session = scoped_session(sessionmaker(bind=engine))
 session = Session()
 
+
 class Base(object):
 
     def to_dict(self):

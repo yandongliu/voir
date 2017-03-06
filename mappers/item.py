@@ -6,4 +6,3 @@ from .base import EntityMapper
 
 class ItemMapper(EntityMapper):
     _entity = Item
-
