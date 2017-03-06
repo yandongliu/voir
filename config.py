@@ -3,7 +3,7 @@ from handlers.error import ErrorHandler
 development_settings = {
     # 'database.url': 'postgresql://tornado_application_user:qwerty123!@localhost:5432/tornado_application',
     'database': {
-        'url': 'mysql://tornado_user:qwerty123!@localhost:3306/tornado_app',
+        'url': 'mysql://voir_root:qwerty123!@localhost:3306/voir_app',
     },
     'tornado': {
         'debug': True,

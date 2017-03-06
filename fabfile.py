@@ -4,14 +4,18 @@ from fabric.api import task, local
 from fabric.colors import green
 import sqlalchemy_utils
 
-from entities import Item, User
+from entities import Event, Item, User
 from models.base import (
     create_all_tables,
     engine,
     ro_transaction,
     rw_transaction,
 )
-from models import Item as ModelItem, User as ModelUser
+from models import (
+    Event as ModelEvent,
+    Item as ModelItem,
+    User as ModelUser,
+)
 
 
 @task
@@ -58,6 +62,35 @@ def print_database(environment='development'):
         rows = session.query(ModelItem).all()
         for row in rows:
             print row.to_dict()
+
+
+@task
+def fake_user(environment='development'):
+    """Create fake user."""
+
+    print green('Fake User')
+    with rw_transaction() as session:
+        user = User.get_mock_object()
+        print 'Inserting user {}'.format(user.to_primitive())
+        model_user = ModelUser(**user.to_primitive())
+        session.add(model_user)
+
+
+@task
+def fake_event(environment='development'):
+    """Create fake event."""
+
+    print green('Fake Event')
+    with rw_transaction() as session:
+        user = User.get_mock_object()
+        event = Event.get_mock_object()
+        event.created_by = user.uuid
+        print 'Inserting user {}'.format(user.to_primitive())
+        print 'Inserting event {}'.format(event.to_primitive())
+        model_user = ModelUser(**user.to_primitive())
+        model_event = ModelEvent(**event.to_primitive())
+        session.add(model_user)
+        session.add(model_event)
 
 
 @task

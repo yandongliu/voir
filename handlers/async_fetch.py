@@ -15,6 +15,6 @@ def fetch_coroutine(url):
 class AsyncFetchHandler(RequestHandler):
     @gen.coroutine
     def get(self):
-        url = self.get_argument('url', 'http://www.google.com')
+        url = self.get_argument('url', 'http://www.yahoo.com')
         resp = yield fetch_coroutine(url)
         self.write(resp)
