@@ -25,3 +25,4 @@ class BaseRepository(object):
         entity.validate()
         query = cls.Table.insert().values(cls.Mapper.to_record(entity))
         session.execute(query)
+        session.commit()
