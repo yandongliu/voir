@@ -1,7 +1,7 @@
 from unittest import TestCase
 
-from entities import User
-from services.repositories.user import UserRepository
+from app.entities import User
+from app.services.repositories.user import UserRepository
 
 
 class TestUserRepository(TestCase):

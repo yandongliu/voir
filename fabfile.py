@@ -1,21 +1,24 @@
 from __future__ import absolute_import
 
+import json
+
 from fabric.api import task, local
 from fabric.colors import green
 import sqlalchemy_utils
 
-from entities import Event, Item, User
-from models.base import (
+from app.entities import Event, Item, User
+from app.models.base import (
     create_all_tables,
     engine,
     ro_transaction,
     rw_transaction,
 )
-from models import (
+from app.models import (
     Event as ModelEvent,
     Item as ModelItem,
     User as ModelUser,
 )
+from app.services.user import UserService
 
 
 @task
@@ -77,6 +80,12 @@ def fake_user(environment='development'):
 
 
 @task
+def show_users(environment='development'):
+    users = UserService.get_recent_users(5)
+    print json.dumps([u.to_primitive() for u in users])
+
+
+@task
 def fake_event(environment='development'):
     """Create fake event."""
 
@@ -117,7 +126,7 @@ def lint():
 
 @task
 def serve():
-    local('python app.py')
+    local('python main.py')
 
 
 @task

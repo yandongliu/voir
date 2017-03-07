@@ -1,8 +1,8 @@
 from unittest import TestCase
 
-from entities import Event, User
-from services.repositories.event import EventRepository
-from services.repositories.user import UserRepository
+from app.entities import Event, User
+from app.services.repositories.event import EventRepository
+from app.services.repositories.user import UserRepository
 
 
 class TestEventRepository(TestCase):

@@ -7,7 +7,7 @@ development_settings = {
     },
     'tornado': {
         'debug': True,
-        'template_path': 'templates/',
+        'template_path': 'app/templates/',
         'default_handler_class': ErrorHandler,
     }
 }

@@ -1,13 +1,15 @@
-from unittest import TestCase
+# from unittest import TestCase
+from tornado.testing import AsyncTestCase, gen_test
 
-from services.event import EventService
-from services.repositories.event import EventRepository
+from app.services.event import EventService
+from app.services.repositories.event import EventRepository
 
 
-class TestEventService(TestCase):
+class TestEventService(AsyncTestCase):
 
+    @gen_test
     def test_create_event(self):
-        event = EventService.create(
+        event = yield EventService.create(
             name='123',
             latitude=12.2323,
             longitude=45.3434,

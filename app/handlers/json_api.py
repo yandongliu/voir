@@ -1,7 +1,7 @@
 from __future__ import absolute_import
 
-from .base import BaseHandler
-from lib import util
+from app.handlers.base import BaseHandler
+from app.lib import util
 
 
 class JsonApiHandler(BaseHandler):

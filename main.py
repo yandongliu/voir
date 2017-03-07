@@ -3,11 +3,11 @@ from __future__ import absolute_import
 import tornado.ioloop
 import tornado.web
 
-import config
-from handlers.database import DatabaseHandler
-from handlers.async_fetch import AsyncFetchHandler
-from handlers.main import MainHandler
-from handlers.json_api import JsonApiHandler
+from app import config
+from app.handlers.database import DatabaseHandler
+from app.handlers.async_fetch import AsyncFetchHandler
+from app.handlers.main import MainHandler
+from app.handlers.json_api import JsonApiHandler
 
 
 def make_application():

@@ -1,7 +1,7 @@
 from __future__ import absolute_import
 
-from entities.event import Event
-from .base import EntityMapper
+from app.entities.event import Event
+from app.mappers.base import EntityMapper
 
 
 class EventMapper(EntityMapper):
